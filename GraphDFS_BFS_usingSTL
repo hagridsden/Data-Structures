@@ -1,0 +1,67 @@
+#include <iostream>
+#include <list>
+#include <queue>
+
+using namespace std;
+
+class Graph
+{
+    int V;
+    list<pair<int,bool> > *adj;
+    
+public:
+    Graph()
+    {
+         adj = new list<pair<int,bool> >[4];
+        V = 4;
+        adj[0].push_back(pair<int,bool>(1,false));
+        adj[0].push_back(pair<int,bool>(2, false));
+        adj[1].push_back(pair<int,bool>(3,false)); 
+    }
+    void BFS(int src)
+    {
+        queue<int> q;
+        q.push(src);
+        while(!q.empty())
+        {
+            int v = q.front();
+            q.pop();
+            cout<<v<<" ";
+            for(list<pair<int,bool> >::iterator u=adj[v].begin() ; u!=adj[v].end();u++)
+            {
+                if((*u).second == false)
+                {
+                    (*u).second = true;
+                    q.push((*u).first);
+                }                
+            }            
+        }        
+    }
+
+    void DFS(int src)
+    {
+        cout<<src<<" ";
+    
+        for(list<pair<int,bool> >::iterator tmp=adj[src].begin() ; tmp!=adj[src].end() ; tmp++)
+        {
+           // cout<<"Entered loop";
+            if((*tmp).second == false)
+            {
+                (*tmp).second = true;
+                DFS((*tmp).first);
+            }
+        }
+    }
+};
+
+
+int main()
+{
+    Graph g;
+    g.BFS(0);
+
+    cout<<"\n";
+    Graph b;
+    b.DFS(0);
+	return 0;
+}
